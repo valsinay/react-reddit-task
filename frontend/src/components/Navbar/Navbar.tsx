@@ -1,10 +1,11 @@
 import React from 'react';
-import styles from "./Navbar.module.scss"
+// import  "./Navbar.module.scss"
+// import "./Navbar.module.scass"
 
 export default function Navbar(){
     return(
         <div className="header">
-            <section className={styles.headerLeft}>
+            <section className="headerLeft">
                 <img src="reddit.png" alt="" />
             </section>
             <section className="header-right"></section>

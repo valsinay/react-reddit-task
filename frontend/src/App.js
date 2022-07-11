@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Main from './components/Main/Main.tsx'
 import Navbar from './components/Navbar/Navbar.tsx'

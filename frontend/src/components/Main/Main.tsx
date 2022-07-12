@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Main(){
     return(
-        <div>
-            This is main!
+        <div className="text-4xl text-center">
+            This is main!!!
         </div>
     )
 }

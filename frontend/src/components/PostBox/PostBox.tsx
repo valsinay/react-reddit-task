@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "../Avatar/Avatar.tsx";
 import { LinkIcon, PhotographIcon } from "@heroicons/react/outline";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import toast from "react-hot-toast";
+
+import { createPost } from "../../api";
+
 
 type FormData = {
+  id: number;
   postTitle: string;
   postBody: string;
-  postImage: string;
+  postImage: string | undefined;
   subreddit: string;
 };
+
 function PostBox() {
+  const [posts, setPosts] = useState<any>([]);
+ 
   const [imageBoxOpen, setImageBoxOpen] = useState<boolean>(false);
 
   const {
@@ -20,13 +29,33 @@ function PostBox() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = handleSubmit(async (formData) => {
-console.log(formData);
+  useEffect(() => {
+    function getData() {
+      const response = fetch(`http://localhost:4000/posts`).then((response) => {
+        let actualData = response.json();
+        setPosts(actualData);
+        console.log(actualData);
+      });
+    }
+    getData();
+  }, []);
 
+  const onSubmit = handleSubmit(async (formData) => {
+    const data = { ...formData, id: uuidv4() };
+    const notification = toast.loading("Creating new post...");
+
+    createPost(data);
+
+    setValue("postTitle", "");
+    setValue("postBody", "");
+    setValue("subreddit", "");
+    setValue("postImage", "");
+    toast.success("New Post Created", { id: notification });
   });
 
   return (
-    <form onSubmit={onSubmit}
+    <form
+      onSubmit={onSubmit}
       className="sticky top-16 z-50 rounded-md border border-gray-300 
     p-2 bg-white border-rounded max-w-5xl mx-auto my-7"
     >
